@@ -84,6 +84,46 @@ app.MapGet("/empleados-json", async (DataLoaderService dataLoader) =>
     }
 });
 
+// Endpoint que carga todos los datos y devuelve todos los objetos generados
+app.MapGet("/todos-los-datos", async (DataLoaderService dataLoader) =>
+{
+    try
+    {
+        await dataLoader.LoadAllDataAsync("datos/datos.json");
+        
+        return Results.Ok(new
+        {
+            message = "Todos los datos cargados y mapeados exitosamente",
+            datos = new
+            {
+                empleados = dataLoader.Empleados,
+                usuarios = dataLoader.Usuarios,
+                estados = dataLoader.Estados,
+                motivos = dataLoader.Motivos,
+                sismografos = dataLoader.Sismografos,
+                estacionesSismologicas = dataLoader.EstacionesSismologicas,
+                ordenesDeInspeccion = dataLoader.OrdenesDeInspeccion,
+                sesiones = dataLoader.Sesiones
+            },
+            estadisticas = new
+            {
+                totalEmpleados = dataLoader.Empleados.Count,
+                totalUsuarios = dataLoader.Usuarios.Count,
+                totalEstados = dataLoader.Estados.Count,
+                totalMotivos = dataLoader.Motivos.Count,
+                totalSismografos = dataLoader.Sismografos.Count,
+                totalEstacionesSismologicas = dataLoader.EstacionesSismologicas.Count,
+                totalOrdenesDeInspeccion = dataLoader.OrdenesDeInspeccion.Count,
+                totalSesiones = dataLoader.Sesiones.Count
+            }
+        });
+    }
+    catch (Exception ex)
+    {
+        return Results.BadRequest($"Error al cargar y mapear los datos: {ex.Message}");
+    }
+});
+
 app.MapGet("/ordenes-inspeccion", () => // Endpoint para mostrar ordenes de inspeccion:
 {
     var gestor = new GestorCerrarOrdenDeInspeccion();
