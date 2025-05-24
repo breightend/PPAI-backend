@@ -1,34 +1,29 @@
 using PPAI_backend.datos.dtos;
 using PPAI_backend.models.entities;
 using PPAI_backend.services;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend",
-        builder => builder
-            .WithOrigins("http://localhost:5173") // Asegúrate que coincida con tu puerto frontend
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials());
-});
+
+
 // Registrar nuestros servicios
 builder.Services.AddSingleton<JsonMappingService>();
 builder.Services.AddSingleton<DataLoaderService>();
 builder.Services.AddScoped<GestorCerrarOrdenDeInspeccion>();
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 app.UseHttpsRedirection();
-app.UseCors("AllowFrontend");
-app.UseAuthorization();
-//app.MapControllers();
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
+
 
 // Cargar todos los datos al inicio de la aplicación
 try
@@ -145,12 +140,6 @@ app.MapGet("/todos-los-datos", async (DataLoaderService dataLoader) =>
         return Results.BadRequest($"Error al cargar y mapear los datos: {ex.Message}");
     }
 });
-
-
-
-
-
-
 
 
 app.MapPost("/motivos-seleccionados", (MotivosSeleccionadosDTO dto, DataLoaderService dataLoader) =>

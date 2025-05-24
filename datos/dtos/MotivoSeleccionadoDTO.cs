@@ -8,10 +8,10 @@ namespace PPAI_backend.datos.dtos
     public class MotivoSeleccionadoConComentarioDTO
     {
         public int IdMotivo { get; set; }
-        public string Comentario { get; set; }
+        public string? Comentario { get; set; }
     }
     public class MotivosSeleccionadosDTO
     {
-        public List<MotivoSeleccionadoConComentarioDTO> Motivos { get; set; }
+        public List<MotivoSeleccionadoConComentarioDTO> Motivos { get; set; } = new List<MotivoSeleccionadoConComentarioDTO>();
     }
 }

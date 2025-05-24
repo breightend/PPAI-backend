@@ -299,7 +299,8 @@ namespace PPAI_backend.services
                 var motivos = cambioDto.Motivos
                     .Select(motivoId => _motivosMap.GetValueOrDefault(motivoId))
                     .Where(motivo => motivo != null)
-                    .ToList()!;
+                    .Select(motivo => motivo!)
+                    .ToList();
 
                 var cambio = new CambioEstado
                 {

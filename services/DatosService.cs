@@ -18,7 +18,7 @@ namespace BackendAPI.services
 
     public class DatosService
     {
-        private SismografoDataContainerDto _dataContainerDto;
+        private SismografoDataContainerDto? _dataContainerDto;
 
         public async Task LoadDataAsync(string jsonFilePath)
         {

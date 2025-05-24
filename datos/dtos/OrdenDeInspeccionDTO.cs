@@ -5,13 +5,13 @@ public class DatosOI
 {
     public int Numero { get; set; }
     public DateTime FechaFin { get; set; }
-    public string NombreEstacion { get; set; }
-    public int IdSismografo { get; set; } //Por que?
-    public string EmpleadoId { get; set; }
-    public string EstadoId { get; set; }
+    public string NombreEstacion { get; set; } = string.Empty;
+    public int IdSismografo { get; set; } 
+    public string EmpleadoId { get; set; }= string.Empty;
+    public string EstadoId { get; set; } = string.Empty;
 
-    public List<OrdenDeInspeccion> OrdenesDeInspeccion { get; set; } 
-    public List<CambioEstadoDto> CambioEstado { get; set; }
+    public List<OrdenDeInspeccion> OrdenesDeInspeccion { get; set; } = new List<OrdenDeInspeccion>();
+    public List<CambioEstadoDto> CambioEstado { get; set; } = new List<CambioEstadoDto>();
     
 }
 
